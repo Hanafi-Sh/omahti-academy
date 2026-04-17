@@ -1000,26 +1000,57 @@ body {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 1.5rem; /* Padded to prevent clipping during scale transforms */
 }
 
 .dark-card {
-    background-color: rgba(6, 6, 8, 0.85); /* Slightly deeper obsidian */
-    border: 1px solid rgba(0, 242, 254, 0.15); /* Base horizon tint */
+    background-color: rgba(255, 255, 255, 0.03); /* Frosted Glass Base */
+    border: 1px solid rgba(255, 255, 255, 0.1); 
     border-radius: 16px;
     padding: 3rem 2rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    transition: all 0.15s cubic-bezier(0.1, 0.9, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
     backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
     position: relative;
     overflow: hidden;
 }
 
+/* Bring all children above the spotlight */
+.dark-card > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* ==================================
+   ADVANCED SPOTLIGHT HOVER ENGINE
+================================== */
+.dark-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    /* The magic tracking gradient */
+    background: radial-gradient(
+        800px circle at var(--mouse-x) var(--mouse-y), 
+        rgba(0, 242, 254, 0.15), 
+        transparent 40%
+    );
+    z-index: 1; 
+    pointer-events: none;
+}
+
+.dark-card:hover::before {
+    opacity: 1;
+}
 
 .dark-card:hover {
     transform: translateY(-8px);
-    background-color: rgba(8, 8, 12, 0.9);
+    border-color: rgba(0, 242, 254, 0.5);
+    background-color: rgba(255, 255, 255, 0.05); /* Slight brighten on hover */
 }
 
 .card-icon {
@@ -1030,7 +1061,7 @@ body {
     justify-content: center;
     align-items: center;
     margin-bottom: 2rem;
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
 .card-icon svg {
@@ -1044,22 +1075,16 @@ body {
     background-color: rgba(0, 242, 254, 0.1) !important;
 }
 
-/* Unified Blue Horizon Ambient Glow - INTENSIFIED */
+/* Glassmorphism Ambient Glow */
 .dark-card.glow-horizon { 
-    border-color: rgba(0, 242, 254, 0.4); 
-    box-shadow: 
-        0 10px 40px rgba(0, 0, 0, 0.6),
-        0 0 40px rgba(0, 242, 254, 0.3);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
 }
 
-/* Intense Neon Glow on Hover - MAXIMUM BRIGHTNESS */
+/* Elevated Shadow on Hover */
 .dark-card.glow-horizon:hover { 
-    border-color: rgba(0, 242, 254, 1); 
     box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.7),
-        0 0 80px rgba(0, 242, 254, 0.7),
-        0 0 20px rgba(255, 255, 255, 0.4), /* Hot white core */
-        inset 0 0 30px rgba(0, 242, 254, 0.2);
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        0 0 40px rgba(0, 242, 254, 0.2);
 }
 
 .card-title {
@@ -1138,3 +1163,97 @@ body {
     .timeline-dot { left: 11px; }
     .intro-card { padding: 2rem 1.5rem; }
 }
+
+/* ==================================
+   SCROLLYTELLING ENGINE MECHANICS
+================================== */
+.scrolly-section {
+    position: relative;
+    width: 100%;
+}
+
+.scrolly-sticky {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* 0. Why Join Grid Sequence (Scrollytelling) */
+.why-join-scrolly {
+    height: 400vh; /* 4 cards = 4 sections */
+}
+
+/* Align the inner content properly in the sticky viewport */
+.why-join-sticky {
+    flex-direction: column;
+    padding-top: 5rem;
+}
+
+/* When the user is scrolling inside, gently fade out unfocused cards */
+.why-join-scrolly[data-current-step] .card-wrapper {
+    transition: all 0.5s cubic-bezier(0.1, 0.9, 0.2, 1);
+    opacity: 0.65;
+    transform: scale(0.98);
+}
+
+/* Base override to ensure smooth transition on standard cards */
+.why-join-scrolly .card-wrapper {
+    transition: all 0.5s cubic-bezier(0.1, 0.9, 0.2, 1);
+    height: 100%;
+}
+
+/* Sequential Focus Logic */
+.why-join-scrolly[data-current-step="0"] .card-wrapper:first-child,
+.why-join-scrolly[data-current-step="1"] .card-wrapper:nth-child(2),
+.why-join-scrolly[data-current-step="2"] .card-wrapper:nth-child(3),
+.why-join-scrolly[data-current-step="3"] .card-wrapper:nth-child(4) {
+    opacity: 1 !important;
+    transform: scale(1.08) translateY(-10px);
+    filter: blur(0px) grayscale(0%);
+    z-index: 10;
+}
+
+/* Trigger intense glow on focused card automatically */
+.why-join-scrolly[data-current-step="0"] .card-wrapper:first-child .dark-card,
+.why-join-scrolly[data-current-step="1"] .card-wrapper:nth-child(2) .dark-card,
+.why-join-scrolly[data-current-step="2"] .card-wrapper:nth-child(3) .dark-card,
+.why-join-scrolly[data-current-step="3"] .card-wrapper:nth-child(4) .dark-card {
+    border-color: rgba(0, 242, 254, 0.8); 
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        0 0 50px rgba(0, 242, 254, 0.3);
+}
+
+/* 1. About Scrolly Configuration (Neural Core) */
+.about-scrolly {
+    /* Mute inner fade up behaviors to prevent layout breaks */
+    height: 250vh; 
+}
+
+.about-scrolly .split-about-container {
+    width: 100%;
+    transform: translateY(calc(var(--scroll-progress, 0) * 5%));
+}
+
+.about-scrolly .neural-core-projector {
+    /* Scale and rotate core violently using pure CSS variables linked to scroll */
+    transform: scale(calc(1 + (var(--scroll-progress, 0) * 0.8)));
+}
+
+.about-scrolly .orbit-container {
+    /* Override standard infinite animation with pure scroll data */
+    animation: none;
+    transform: rotateY(calc(var(--scroll-progress, 0) * 720deg)) rotateX(calc(var(--scroll-progress, 0) * 360deg));
+}
+
+.about-scrolly .projection-base {
+    opacity: calc(1 - var(--scroll-progress, 0));
+    transform: scale(calc(1 + (var(--scroll-progress, 0))));
+}
+
+

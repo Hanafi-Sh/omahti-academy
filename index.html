@@ -51,15 +51,19 @@
                  ============================================== -->
             <section id="why-join" class="why-join-section">
 
-                <!-- TOP PART: CARDS GRID (Why Join Us) -->
-                <div class="fade-up w-100 text-center mb-4">
-                    <h3 class="secondary-heading" style="font-size: 2.8rem;">Kenapa Kamu Wajib Join?</h3>
-                </div>
+                <!-- TOP PART: CARDS GRID (Why Join Us) SCROLLYTELLING SEQUENCE -->
+                <div class="scrolly-section why-join-scrolly" data-steps="4">
+                    <div class="scrolly-sticky why-join-sticky">
+                        
+                        <!-- Header inside the sticky so it stays visible while scrolling -->
+                        <div class="w-100 text-center mb-5" style="padding-bottom: 2rem;">
+                            <h3 class="secondary-heading" style="font-size: 2.8rem;">Kenapa Kamu Wajib Join?</h3>
+                        </div>
 
-                <div class="cards-grid mb-5" style="margin-bottom: 8rem;">
-                    <!-- Card 1 -->
-                    <div class="fade-up" style="height: 100%;">
-                        <div class="dark-card glow-horizon" style="height: 100%;">
+                        <div class="cards-grid mb-5">
+                            <!-- Card 1 -->
+                            <div class="card-wrapper" style="height: 100%;">
+                                <div class="dark-card glow-horizon" style="height: 100%;">
                             <div class="card-icon blue-horizon-glow">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -74,7 +78,7 @@
                     </div>
 
                     <!-- Card 2 -->
-                    <div class="fade-up" style="transition-delay: 0.1s; height: 100%;">
+                    <div class="card-wrapper" style="height: 100%;">
                         <div class="dark-card glow-horizon" style="height: 100%;">
                             <div class="card-icon blue-horizon-glow">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
@@ -84,13 +88,14 @@
                                 </svg>
                             </div>
                             <h4 class="card-title">Ramah Pemula</h4>
-                            <p class="card-desc">Dibimbing oleh ahlinya. Sangat terbuka bagi pemula, maupun yang sudah ahli
+                            <p class="card-desc">Dibimbing oleh ahlinya. Sangat terbuka bagi pemula, maupun yang sudah
+                                ahli
                                 tapi masih pengen belajar.</p>
                         </div>
                     </div>
 
                     <!-- Card 3 -->
-                    <div class="fade-up" style="transition-delay: 0.2s; height: 100%;">
+                    <div class="card-wrapper" style="height: 100%;">
                         <div class="dark-card glow-horizon" style="height: 100%;">
                             <div class="card-icon blue-horizon-glow">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
@@ -106,7 +111,7 @@
                     </div>
 
                     <!-- Card 4 -->
-                    <div class="fade-up" style="transition-delay: 0.3s; height: 100%;">
+                    <div class="card-wrapper" style="height: 100%;">
                         <div class="dark-card glow-horizon" style="height: 100%;">
                             <div class="card-icon blue-horizon-glow">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
@@ -116,66 +121,78 @@
                                 </svg>
                             </div>
                             <h4 class="card-title">Sertifikat Resmi & Penghargaan</h4>
-                            <p class="card-desc">Validitas sebagai wujud otentik penghargaan atas kerja keras portofoliomu.
+                            <p class="card-desc">Validitas sebagai wujud otentik penghargaan atas kerja keras
+                                portofoliomu.
                             </p>
                         </div>
                     </div>
-                </div>
-
-                <!-- NEW: DISCLAIMER BANNER -->
-                <div class="fade-up w-100 text-center mb-5 mt-4" style="position: relative; top: -3.5rem; z-index: 5;">
-                    <div class="disclaimer-banner">
-                        <p class="disclaimer-text-new">Jangan malu untuk daftar, karena kita semua sama-sama belajar.</p>
-                    </div>
-                </div>
-
-                <!-- BOTTOM PART: SPLIT COLUMN (About) -->
-                <div class="split-about-container fade-up mb-4 mt-5">
-                    <!-- Left: Texts -->
-                    <div class="about-text-content">
-                        <div class="subtitle-badge">Tentang OmahTI Academy</div>
-                        <h2 class="main-heading">Jadi Ahli, Tanpa<br>Harus Keluar Biaya!</h2>
-                        <p class="desc-text text-justify">
-                            <strong>OmahTI Academy</strong> adalah program <em>mini-bootcamp</em> yang mengajarkan
-                            berbagai <em>course</em> di bidang IT. Tahun ini kami mengadakannya <strong>gratis
-                                100%</strong> agar semua kalangan bisa mendaftar, belajar, dan mengasah keahlian.
-                        </p>
-                        <p class="desc-text text-justify">
-                            Kami menyediakan pembelajaran di masa liburan dengan <em>have-fun</em> tapi tetap
-                            berkualitas. dibimbing oleh mentor berpengalaman, hingga pengajar mahasiswa yang
-                            <em>friendly</em>. Kami tidak sekadar mengajar, tapi memberikan <strong>liburan sekaligus
-                                keahlian</strong>.
-                        </p>
-                        <p class="desc-text text-justify glow-text" style="font-weight: 500;">
-                            Bagi kamu yang pengen liburan sambil belajar, atau kamu yang ambis ngejar cita-cita tapi
-                            ngga tau harus mulai ke mana, tempat ini paling cocok buat kamu!
-                        </p>
-                    </div>
-
-                    <!-- Right: Illustration (Neural Core Holographic Projector) -->
-                    <div class="about-visual-content">
-                        <div class="neural-core-projector floating-illustration">
-                            <!-- Central Core -->
-                            <div class="core-sphere">
-                                <div class="core-glow"></div>
-                            </div>
-
-                            <!-- Orbital Rings -->
-                            <div class="orbit-container">
-                                <div class="orbit-ring ring-1"></div>
-                                <div class="orbit-ring ring-2"></div>
-                                <div class="orbit-ring ring-3"></div>
-                                <div class="orbit-ring ring-4"></div>
-                            </div>
-                            
-                            <!-- Projection Base -->
-                            <div class="projection-base"></div>
                         </div>
+
+                        <!-- NEW: DISCLAIMER BANNER -->
+                        <div class="w-100 text-center mb-5 mt-4" style="position: relative; z-index: 5;">
+                            <div class="disclaimer-banner">
+                                <p class="disclaimer-text-new">Jangan malu mendaftar, kita semua sama-sama belajar.</p>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
-                </div>
+
+                <!-- BOTTOM PART: SPLIT COLUMN (About) SCROLLYTELLING -->
+                <div class="scrolly-section about-scrolly">
+                    <div class="scrolly-sticky">
+                        <div class="split-about-container mb-4 mt-5">
+                            <!-- Left: Texts -->
+                            <div class="about-text-content">
+                                <div class="subtitle-badge">Tentang OmahTI Academy</div>
+                                <h2 class="main-heading">Jadi Ahli, Tanpa<br>Harus Keluar Biaya!</h2>
+                                <p class="desc-text text-justify">
+                                    <strong>OmahTI Academy</strong> adalah program <em>mini-bootcamp</em> yang
+                                    mengajarkan
+                                    berbagai <em>course</em> di bidang IT. Tahun ini kami mengadakannya <strong>gratis
+                                        100%</strong> agar semua kalangan bisa mendaftar, belajar, dan mengasah
+                                    keahlian.
+                                </p>
+                                <p class="desc-text text-justify">
+                                    Kami menyediakan pembelajaran di masa liburan dengan <em>have-fun</em> tapi tetap
+                                    berkualitas. dibimbing oleh mentor berpengalaman, hingga pengajar mahasiswa yang
+                                    <em>friendly</em>. Kami tidak sekadar mengajar, tapi memberikan <strong>liburan
+                                        sekaligus
+                                        keahlian</strong>.
+                                </p>
+                                <p class="desc-text text-justify glow-text" style="font-weight: 500;">
+                                    Bagi kamu yang pengen liburan sambil belajar, atau kamu yang ambis ngejar cita-cita
+                                    tapi
+                                    ngga tau harus mulai ke mana, tempat ini paling cocok buat kamu!
+                                </p>
+                            </div>
+
+                            <!-- Right: Illustration (Neural Core Holographic Projector) -->
+                            <div class="about-visual-content">
+                                <div class="neural-core-projector floating-illustration">
+                                    <!-- Central Core -->
+                                    <div class="core-sphere">
+                                        <div class="core-glow"></div>
+                                    </div>
+
+                                    <!-- Orbital Rings -->
+                                    <div class="orbit-container">
+                                        <div class="orbit-ring ring-1"></div>
+                                        <div class="orbit-ring ring-2"></div>
+                                        <div class="orbit-ring ring-3"></div>
+                                        <div class="orbit-ring ring-4"></div>
+                                    </div>
+
+                                    <!-- Projection Base -->
+                                    <div class="projection-base"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
             </section>
+
         </div>
 
         <!-- CANVAS VFX ENGINE SCRIPT (Fokus Komet Fotorealistis) -->
@@ -558,6 +575,79 @@
 
                 const fadeElements = document.querySelectorAll('.fade-up');
                 fadeElements.forEach(el => observer.observe(el));
+
+                // ==========================================
+                // HYBRID SCROLLYTELLING ENGINE
+                // ==========================================
+                const scrollySections = document.querySelectorAll('.scrolly-section');
+                let ticking = false;
+
+                function processScrollytelling() {
+                    const scrollY = window.scrollY;
+                    const windowHeight = window.innerHeight;
+
+                    scrollySections.forEach(section => {
+                        const rect = section.getBoundingClientRect();
+                        // Get absolute position of section relative to document
+                        const sectionTop = rect.top + scrollY;
+                        const sectionHeight = section.offsetHeight;
+
+                        // We want progress to be from 0 to 1 as the section scrolls PAST the screen
+                        // Sticky elements inside usually take 100vh.
+                        const scrollDist = sectionHeight - windowHeight;
+
+                        if (scrollDist > 0) {
+                            let rawProgress = (scrollY - sectionTop) / scrollDist;
+                            // Clamp between 0 and 1
+                            let progress = Math.max(0, Math.min(1, rawProgress));
+                            section.style.setProperty('--scroll-progress', progress.toFixed(4));
+                            
+                            // Map to discrete steps if data-steps is defined
+                            if (section.dataset.steps) {
+                                // If completely outside the section, remove the step attribute to fall back to base CSS
+                                if (rawProgress <= 0 || rawProgress >= 1) {
+                                    section.removeAttribute('data-current-step');
+                                } else {
+                                    const stepsCount = parseInt(section.dataset.steps, 10);
+                                    if (stepsCount > 1) {
+                                        const currentStep = Math.floor(progress * stepsCount);
+                                        const safeStep = Math.min(currentStep, stepsCount - 1);
+                                        section.setAttribute('data-current-step', safeStep);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    ticking = false;
+                }
+
+                window.addEventListener('scroll', () => {
+                    if (!ticking) {
+                        window.requestAnimationFrame(processScrollytelling);
+                        ticking = true;
+                    }
+                }, { passive: true });
+
+                // Init once
+                processScrollytelling();
+
+                // ==========================================
+                // ADVANCED SPOTLIGHT HOVER ENGINE
+                // ==========================================
+                const cards = document.querySelectorAll('.dark-card');
+
+                cards.forEach(card => {
+                    card.addEventListener('mousemove', e => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left; // x position within the element
+                        const y = e.clientY - rect.top;  // y position within the element
+
+                        // Set CSS variables for spotlight center
+                        card.style.setProperty('--mouse-x', `${x}px`);
+                        card.style.setProperty('--mouse-y', `${y}px`);
+                    });
+                });
+
             });
         </script>
 </body>
