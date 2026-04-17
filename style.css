@@ -83,6 +83,20 @@ a, button, [role="button"], .dark-card, .menu-item {
 }
 
 /* ==================================
+   STARDUST CANVAS LAYER (Global)
+================================== */
+#stardustCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Behind everything */
+    pointer-events: none;
+    background-color: #010103;
+}
+
+/* ==================================
    VFX CANVAS LAYER
 ================================== */
 #vfxCanvas {
@@ -1002,10 +1016,10 @@ a, button, [role="button"], .dark-card, .menu-item {
 
 .cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 2.5rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem; /* Reduced gap to give more internal space to cards */
     width: 100%;
-    max-width: 1200px;
+    max-width: 1750px; /* Increased further to prevent 'Premium' from truncating */
     margin: 0 auto;
     padding: 0 1.5rem; /* Padded to prevent clipping during scale transforms */
 }
@@ -1014,7 +1028,7 @@ a, button, [role="button"], .dark-card, .menu-item {
     background-color: rgba(255, 255, 255, 0.03); /* Frosted Glass Base */
     border: 1px solid rgba(255, 255, 255, 0.1); 
     border-radius: 16px;
-    padding: 3rem 2rem;
+    padding: 3rem 1.75rem; /* Slightly reduced horizontal padding to maximize text space */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -1102,6 +1116,11 @@ a, button, [role="button"], .dark-card, .menu-item {
     margin-bottom: 1.2rem;
     letter-spacing: 0.02em;
     transition: all 0.2s ease;
+    /* Ensure title doesn't exceed 2 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .dark-card:hover .card-title {

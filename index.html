@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    <canvas id="stardustCanvas"></canvas>
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
 
@@ -57,7 +58,7 @@
                 <!-- TOP PART: CARDS GRID (Why Join Us) SCROLLYTELLING SEQUENCE -->
                 <div class="scrolly-section why-join-scrolly" data-steps="4">
                     <div class="scrolly-sticky why-join-sticky">
-                        
+
                         <!-- Header inside the sticky so it stays visible while scrolling -->
                         <div class="w-100 text-center mb-5" style="padding-bottom: 2rem;">
                             <h3 class="secondary-heading" style="font-size: 2.8rem;">Kenapa Kamu Wajib Join?</h3>
@@ -67,68 +68,71 @@
                             <!-- Card 1 -->
                             <div class="card-wrapper" style="height: 100%;">
                                 <div class="dark-card glow-horizon" style="height: 100%;">
-                            <div class="card-icon blue-horizon-glow">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                                </svg>
+                                    <div class="card-icon blue-horizon-glow">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                                        </svg>
+                                    </div>
+                                    <h4 class="card-title">100% Gratis, Kualitas Premium</h4>
+                                    <p class="card-desc">Kualitas kelas mahal, tapi tanpa sepeser pun biaya (hanya
+                                        commitment
+                                        fee). Akses langsung eksklusif.</p>
+                                </div>
                             </div>
-                            <h4 class="card-title">100% Gratis, Kualitas Premiun</h4>
-                            <p class="card-desc">Kualitas kelas mahal, tapi tanpa sepeser pun biaya (hanya commitment
-                                fee). Akses langsung eksklusif.</p>
-                        </div>
-                    </div>
 
-                    <!-- Card 2 -->
-                    <div class="card-wrapper" style="height: 100%;">
-                        <div class="dark-card glow-horizon" style="height: 100%;">
-                            <div class="card-icon blue-horizon-glow">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
+                            <!-- Card 2 -->
+                            <div class="card-wrapper" style="height: 100%;">
+                                <div class="dark-card glow-horizon" style="height: 100%;">
+                                    <div class="card-icon blue-horizon-glow">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <h4 class="card-title">Ramah Pemula</h4>
+                                    <p class="card-desc">Dibimbing oleh ahlinya. Sangat terbuka bagi pemula, maupun yang
+                                        sudah
+                                        ahli
+                                        tapi masih pengen belajar.</p>
+                                </div>
                             </div>
-                            <h4 class="card-title">Ramah Pemula</h4>
-                            <p class="card-desc">Dibimbing oleh ahlinya. Sangat terbuka bagi pemula, maupun yang sudah
-                                ahli
-                                tapi masih pengen belajar.</p>
-                        </div>
-                    </div>
 
-                    <!-- Card 3 -->
-                    <div class="card-wrapper" style="height: 100%;">
-                        <div class="dark-card glow-horizon" style="height: 100%;">
-                            <div class="card-icon blue-horizon-glow">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                                </svg>
+                            <!-- Card 3 -->
+                            <div class="card-wrapper" style="height: 100%;">
+                                <div class="dark-card glow-horizon" style="height: 100%;">
+                                    <div class="card-icon blue-horizon-glow">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                        </svg>
+                                    </div>
+                                    <h4 class="card-title">Eksekusi Nyata dalam Project</h4>
+                                    <p class="card-desc">Materi bukan sekadar teori membosankan, melainkan praktik
+                                        langsung dan
+                                        membuat produk jadi.</p>
+                                </div>
                             </div>
-                            <h4 class="card-title">Eksekusi Nyata dalam Project</h4>
-                            <p class="card-desc">Materi bukan sekadar teori membosankan, melainkan praktik langsung dan
-                                membuat produk jadi.</p>
-                        </div>
-                    </div>
 
-                    <!-- Card 4 -->
-                    <div class="card-wrapper" style="height: 100%;">
-                        <div class="dark-card glow-horizon" style="height: 100%;">
-                            <div class="card-icon blue-horizon-glow">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                                </svg>
+                            <!-- Card 4 -->
+                            <div class="card-wrapper" style="height: 100%;">
+                                <div class="dark-card glow-horizon" style="height: 100%;">
+                                    <div class="card-icon blue-horizon-glow">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                        </svg>
+                                    </div>
+                                    <h4 class="card-title">Sertifikat Resmi & Penghargaan</h4>
+                                    <p class="card-desc">Validitas sebagai wujud otentik penghargaan atas kerja keras
+                                        portofoliomu.
+                                    </p>
+                                </div>
                             </div>
-                            <h4 class="card-title">Sertifikat Resmi & Penghargaan</h4>
-                            <p class="card-desc">Validitas sebagai wujud otentik penghargaan atas kerja keras
-                                portofoliomu.
-                            </p>
-                        </div>
-                    </div>
                         </div>
 
                         <!-- NEW: DISCLAIMER BANNER -->
@@ -200,6 +204,9 @@
 
         <!-- CANVAS VFX ENGINE SCRIPT (Fokus Komet Fotorealistis) -->
         <script>
+            let cursorX = 0;
+            let cursorY = 0;
+
             const canvas = document.getElementById('vfxCanvas');
             const ctx = canvas.getContext('2d');
             let width, height;
@@ -604,7 +611,7 @@
                             // Clamp between 0 and 1
                             let progress = Math.max(0, Math.min(1, rawProgress));
                             section.style.setProperty('--scroll-progress', progress.toFixed(4));
-                            
+
                             if (section.dataset.steps) {
                                 const stepsCount = parseInt(section.dataset.steps, 10);
                                 if (rawProgress <= 0) {
@@ -635,8 +642,6 @@
                 const cursorDot = document.querySelector('.cursor-dot');
                 const cursorOutline = document.querySelector('.cursor-outline');
 
-                let cursorX = 0;
-                let cursorY = 0;
                 let outlineX = 0;
                 let outlineY = 0;
 
@@ -644,7 +649,7 @@
                 window.addEventListener('mousemove', (e) => {
                     cursorX = e.clientX;
                     cursorY = e.clientY;
-                    
+
                     cursorDot.style.left = cursorX + 'px';
                     cursorDot.style.top = cursorY + 'px';
                 });
@@ -717,6 +722,76 @@
                         card.style.setProperty('--mouse-y', `${y}px`);
                     });
                 });
+
+                // ==========================================
+                // GLOBAL STARDUST PARALLAX ENGINE
+                // ==========================================
+                const sCanvas = document.getElementById('stardustCanvas');
+                const sCtx = sCanvas.getContext('2d');
+                let sWidth, sHeight;
+                let particles = [];
+
+                // AUTO-OPTIMIZATION: Detect if device is likely lower-end
+                const isLowEnd = (navigator.hardwareConcurrency || 4) <= 4;
+                const particleCount = isLowEnd ? 150 : 450;
+
+                class DustParticle {
+                    constructor() {
+                        this.init();
+                    }
+
+                    init() {
+                        this.x = Math.random() * sWidth;
+                        this.y = Math.random() * sHeight;
+                        this.size = Math.random() * 1.5 + 0.5;
+
+                        // Parallax Depth (0 to 1)
+                        // 0 = Far (slow), 1 = Near (fast)
+                        this.depth = Math.random();
+
+                        // Base velocity (very slow drift)
+                        this.vx = (Math.random() - 0.5) * 0.1;
+                        this.vy = (Math.random() - 0.5) * 0.1;
+
+                        this.opacity = Math.random() * 0.5 + 0.2;
+                        this.pulse = Math.random() * 0.02;
+                    }
+
+                    update() {
+                        // Static mode - no internal movement calculations needed
+                    }
+
+                    draw() {
+                        // Reset to pure static draw positions
+                        let drawX = this.x;
+                        let drawY = this.y;
+
+                        sCtx.fillStyle = `rgba(255, 180, 50, ${this.opacity * (1 - this.depth * 0.5)})`;
+                        if (this.depth > 0.8) sCtx.fillStyle = `rgba(180, 240, 255, ${this.opacity})`;
+
+                        sCtx.beginPath();
+                        sCtx.arc(drawX, drawY, this.size, 0, Math.PI * 2);
+                        sCtx.fill();
+                    }
+                }
+
+                function drawStardustOnce() {
+                    sCtx.clearRect(0, 0, sWidth, sHeight);
+                    particles.forEach(p => p.draw());
+                }
+
+                function resizeStardust() {
+                    sWidth = sCanvas.width = window.innerWidth;
+                    sHeight = sCanvas.height = window.innerHeight;
+                    particles = [];
+                    for (let i = 0; i < particleCount; i++) {
+                        particles.push(new DustParticle());
+                    }
+                    drawStardustOnce();
+                }
+
+                window.addEventListener('resize', resizeStardust);
+                resizeStardust();
 
             });
         </script>
