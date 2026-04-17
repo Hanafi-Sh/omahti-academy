@@ -122,6 +122,7 @@
             };
             
             // Sentuhan ekstra: memancarkan percikan serbuk bintang (fireflies/stardust) yang damai bertebaran perlahan
+            /* 
             for(let i = 0; i < 45; i++) {
                 dusts.push({
                     x: x + (Math.random() - 0.5) * 50, // Penebaran awal alami menyebar dari poros amuba
@@ -135,6 +136,7 @@
                     wobble: Math.random() * Math.PI * 2
                 });
             }
+            */
         }
 
         // COMET LOGIC (Ultra-HD Smooth Beam Mode)
@@ -225,6 +227,7 @@
             }
             
             // RENDER EXTRA: SENTUHAN STARDUST MELAYANG (Serbuk Emas Magis Pemanis)
+            /*
             if (dusts.length > 0) {
                 ctx.globalCompositeOperation = 'screen';
                 for (let i = dusts.length - 1; i >= 0; i--) {
@@ -257,6 +260,7 @@
                 }
                 ctx.globalCompositeOperation = 'source-over';
             }
+            */
 
             // 4. RENDER KOMET
             if (comet && comet.active) {
