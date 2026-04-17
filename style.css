@@ -22,7 +22,14 @@ body {
     /* Pindahkan hidden ke body saja agar browser tak bingung menggambar 2 rel scroll */
     overflow-x: hidden; 
     background-color: transparent; 
+    cursor: none; /* Hide default cursor */
 }
+
+/* Ensure interactive elements also have no default cursor */
+a, button, [role="button"], .dark-card, .menu-item {
+    cursor: none !important;
+}
+
 
 .shake-wrapper {
     width: 100%;
@@ -1237,23 +1244,127 @@ body {
 
 .about-scrolly .split-about-container {
     width: 100%;
-    transform: translateY(calc(var(--scroll-progress, 0) * 5%));
+}
+
+/* Base state: Dimmed but visible */
+.about-text-content .subtitle-badge,
+.about-text-content .main-heading,
+.about-text-content .desc-text,
+.about-scrolly .neural-core-projector {
+    opacity: 0.35;
+    transform: translateY(0); /* No more jumpy movement needed */
+    transition: all 0.6s cubic-bezier(0.1, 0.9, 0.2, 1);
+}
+
+/* Step 0: Brighten Headers & Neural Core Activation */
+.about-scrolly[data-current-step="0"] .subtitle-badge,
+.about-scrolly[data-current-step="0"] .main-heading,
+.about-scrolly[data-current-step="0"] .neural-core-projector,
+.about-scrolly[data-current-step="1"] .subtitle-badge,
+.about-scrolly[data-current-step="1"] .main-heading,
+.about-scrolly[data-current-step="1"] .neural-core-projector,
+.about-scrolly[data-current-step="2"] .subtitle-badge,
+.about-scrolly[data-current-step="2"] .main-heading,
+.about-scrolly[data-current-step="2"] .neural-core-projector,
+.about-scrolly[data-current-step="3"] .subtitle-badge,
+.about-scrolly[data-current-step="3"] .main-heading,
+.about-scrolly[data-current-step="3"] .neural-core-projector {
+    opacity: 1;
+}
+
+/* Neural core scaling stays linked to scroll progress */
+.about-scrolly[data-current-step] .neural-core-projector {
+    transform: scale(calc(1 + (var(--scroll-progress, 0) * 0.2)));
+}
+
+/* Step 1: Brighten Paragraph 1 */
+.about-scrolly[data-current-step="1"] .about-text-content p:nth-of-type(1),
+.about-scrolly[data-current-step="2"] .about-text-content p:nth-of-type(1),
+.about-scrolly[data-current-step="3"] .about-text-content p:nth-of-type(1) {
+    opacity: 1;
+}
+
+/* Step 2: Brighten Paragraph 2 */
+.about-scrolly[data-current-step="2"] .about-text-content p:nth-of-type(2),
+.about-scrolly[data-current-step="3"] .about-text-content p:nth-of-type(2) {
+    opacity: 1;
+}
+
+/* Step 3: Brighten Paragraph 3 */
+.about-scrolly[data-current-step="3"] .about-text-content p:nth-of-type(3) {
+    opacity: 1;
 }
 
 .about-scrolly .neural-core-projector {
-    /* Scale and rotate core violently using pure CSS variables linked to scroll */
-    transform: scale(calc(1 + (var(--scroll-progress, 0) * 0.8)));
+    transition: opacity 0.6s ease;
+}
+
+@keyframes infiniteOrbitSpin {
+    0% { transform: rotateY(0deg) rotateX(0deg); }
+    100% { transform: rotateY(360deg) rotateX(180deg); }
 }
 
 .about-scrolly .orbit-container {
-    /* Override standard infinite animation with pure scroll data */
-    animation: none;
-    transform: rotateY(calc(var(--scroll-progress, 0) * 720deg)) rotateX(calc(var(--scroll-progress, 0) * 360deg));
+    /* Pure infinite rotation */
+    animation: infiniteOrbitSpin 20s linear infinite;
 }
 
 .about-scrolly .projection-base {
     opacity: calc(1 - var(--scroll-progress, 0));
-    transform: scale(calc(1 + (var(--scroll-progress, 0))));
+}
+
+/* ==================================
+   NEURAL MOUSE FOLLOWER (Orange)
+================================== */
+.cursor-dot, 
+.cursor-outline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 10000;
+    pointer-events: none;
+    transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: rgb(255, 160, 50);
+    box-shadow: 0 0 15px rgba(255, 160, 50, 0.9);
+}
+
+.cursor-outline {
+    width: 35px;
+    height: 35px;
+    border: 1px solid rgba(255, 160, 50, 0.5);
+    box-shadow: 0 0 20px rgba(255, 160, 50, 0.3);
+}
+
+/* Focus/Hover States */
+.cursor-hover {
+    width: 65px;
+    height: 65px;
+    background-color: rgba(255, 160, 50, 0.1);
+    border-color: rgba(255, 160, 50, 1);
+    box-shadow: 0 0 35px rgba(255, 160, 50, 0.5);
+}
+
+.cursor-hover-dot {
+    transform: translate(-50%, -50%) scale(1.5);
+    background-color: #fff; /* Bright white core of the beacon */
+    box-shadow: 0 0 20px #fff;
+}
+
+/* Click Squeeze Effect */
+.cursor-clicked {
+    transform: translate(-50%, -50%) scale(0.8);
+    background-color: rgba(255, 160, 50, 0.4);
+}
+
+.cursor-hidden {
+    opacity: 0 !important;
 }
 
 

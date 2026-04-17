@@ -12,6 +12,9 @@
 </head>
 
 <body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
     <svg style="width: 0; height: 0; position: absolute;" aria-hidden="true">
         <filter id="svg-distort">
             <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" result="noise" />
@@ -139,7 +142,7 @@
                 </div>
 
                 <!-- BOTTOM PART: SPLIT COLUMN (About) SCROLLYTELLING -->
-                <div class="scrolly-section about-scrolly">
+                <div class="scrolly-section about-scrolly" data-steps="4" data-persist="true">
                     <div class="scrolly-sticky">
                         <div class="split-about-container mb-4 mt-5">
                             <!-- Left: Texts -->
@@ -160,7 +163,7 @@
                                         sekaligus
                                         keahlian</strong>.
                                 </p>
-                                <p class="desc-text text-justify glow-text" style="font-weight: 500;">
+                                <p class="desc-text text-justify" style="font-weight: 500;">
                                     Bagi kamu yang pengen liburan sambil belajar, atau kamu yang ambis ngejar cita-cita
                                     tapi
                                     ngga tau harus mulai ke mana, tempat ini paling cocok buat kamu!
@@ -602,13 +605,18 @@
                             let progress = Math.max(0, Math.min(1, rawProgress));
                             section.style.setProperty('--scroll-progress', progress.toFixed(4));
                             
-                            // Map to discrete steps if data-steps is defined
                             if (section.dataset.steps) {
-                                // If completely outside the section, remove the step attribute to fall back to base CSS
-                                if (rawProgress <= 0 || rawProgress >= 1) {
+                                const stepsCount = parseInt(section.dataset.steps, 10);
+                                if (rawProgress <= 0) {
                                     section.removeAttribute('data-current-step');
+                                } else if (rawProgress >= 1) {
+                                    // If persist is true, stay at last step. If not, reset.
+                                    if (section.dataset.persist === "true") {
+                                        section.setAttribute('data-current-step', stepsCount - 1);
+                                    } else {
+                                        section.removeAttribute('data-current-step');
+                                    }
                                 } else {
-                                    const stepsCount = parseInt(section.dataset.steps, 10);
                                     if (stepsCount > 1) {
                                         const currentStep = Math.floor(progress * stepsCount);
                                         const safeStep = Math.min(currentStep, stepsCount - 1);
@@ -620,6 +628,68 @@
                     });
                     ticking = false;
                 }
+
+                // ==========================================
+                // NEURAL MOUSE FOLLOWER (Orange Horizon)
+                // ==========================================
+                const cursorDot = document.querySelector('.cursor-dot');
+                const cursorOutline = document.querySelector('.cursor-outline');
+
+                let cursorX = 0;
+                let cursorY = 0;
+                let outlineX = 0;
+                let outlineY = 0;
+
+                // Precision movement for the dot
+                window.addEventListener('mousemove', (e) => {
+                    cursorX = e.clientX;
+                    cursorY = e.clientY;
+                    
+                    cursorDot.style.left = cursorX + 'px';
+                    cursorDot.style.top = cursorY + 'px';
+                });
+
+                // Smooth "Lerp" movement for the outline
+                function animateCursor() {
+                    // LERP: Position = Current + (Target - Current) * Speed
+                    outlineX += (cursorX - outlineX) * 0.15;
+                    outlineY += (cursorY - outlineY) * 0.15;
+
+                    cursorOutline.style.left = outlineX + 'px';
+                    cursorOutline.style.top = outlineY + 'px';
+
+                    requestAnimationFrame(animateCursor);
+                }
+                animateCursor();
+
+                // Interactive elements reaction
+                const interactives = document.querySelectorAll('a, button, .menu-item');
+                const glassCards = document.querySelectorAll('.dark-card');
+
+                interactives.forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                        cursorOutline.classList.add('cursor-hover');
+                        cursorDot.classList.add('cursor-hover-dot');
+                    });
+                    el.addEventListener('mouseleave', () => {
+                        cursorOutline.classList.remove('cursor-hover');
+                        cursorDot.classList.remove('cursor-hover-dot');
+                    });
+                });
+
+                glassCards.forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                        cursorOutline.classList.add('cursor-hidden');
+                        cursorDot.classList.add('cursor-hidden');
+                    });
+                    el.addEventListener('mouseleave', () => {
+                        cursorOutline.classList.remove('cursor-hidden');
+                        cursorDot.classList.remove('cursor-hidden');
+                    });
+                });
+
+                window.addEventListener('mousedown', () => cursorOutline.classList.add('cursor-clicked'));
+                window.addEventListener('mouseup', () => cursorOutline.classList.remove('cursor-clicked'));
 
                 window.addEventListener('scroll', () => {
                     if (!ticking) {
