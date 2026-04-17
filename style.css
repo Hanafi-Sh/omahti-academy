@@ -1,0 +1,257 @@
+:root {
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.85);
+    --accent-glow: rgba(255, 140, 0, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100%;
+    min-height: 100vh;
+    font-family: 'Outfit', sans-serif;
+    /* Buka overflow vertikal agar bisa scroll ke bawah ke konten selanjutnya! */
+    overflow-x: hidden; 
+    background-color: #010103; 
+}
+
+.shake-wrapper {
+    width: 100%;
+    position: relative;
+}
+
+.hero {
+    width: 100%;
+    height: 100vh; /* Kunci panggung animasi komet tepat di layar pertama */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+}
+
+.hero-bg-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    background-color: inherit;
+}
+
+.zoom-wrapper {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    animation: slowZoom 35s ease-in-out infinite alternate;
+    transform-origin: center 85vh; 
+}
+
+.hero-bg-img {
+    width: 100vw;
+    height: auto;
+    min-height: 100vh;
+    object-fit: cover;
+    position: absolute;
+    top: 85vh; 
+    left: 0;
+    transform: translateY(-85.1%);
+}
+
+@keyframes slowZoom {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.04); }
+}
+
+/* ==================================
+   VFX CANVAS LAYER
+================================== */
+#vfxCanvas {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 2; /* Berada di atas horizon, di bawah teks */
+    pointer-events: none;
+    
+    /* VITAL: Teknik ini membuat canvas bukan sekadar "menempel", 
+       melainkan berbaur secara optikal menerangi warna gambar sekitarnya */
+    mix-blend-mode: screen; 
+    
+    /* Mencegah lag ekstrim: jangan gunakan CSS drop-shadow ke seluruh lebar layar! */
+    
+    /* Masking untuk membuat efek visual memudar/hilang secara halus di garis horizon 85vh
+       sehingga ekor komet terasa menembus dari belakang dunia/bumi */
+    -webkit-mask-image: linear-gradient(to bottom, black 82vh, transparent 86vh);
+    mask-image: linear-gradient(to bottom, black 82vh, transparent 86vh);
+}
+
+/* ==================================
+   SVG BACKDROP DISPLACEMENT SHOCKWAVE
+================================== */
+.shockwave {
+    position: absolute;
+    top: 35vh; /* Center drop */
+    left: 50%;
+    /* Mencegah Lag Ekstrim (Layout Reflows): Paksa ukuran elemen tetap besar, 
+       kemudian animasikan via transform: scale dengan Akselerasi GPU penuh! */
+    width: 140vw;
+    height: 140vw;
+    transform: translate(-50%, -50%) scale(0.01);
+    
+    background: transparent;
+                
+    /* Pembiasan lensa gelembung mengikuti bentuk goyangannya dengan filter SVG! */
+    backdrop-filter: url(#svg-distort) brightness(1.1);
+    -webkit-backdrop-filter: blur(2px) brightness(1.1); 
+    
+    /* Memaksa elemen ini terpisah ke layer Composite GPU murni */
+    will-change: transform, border-radius, opacity;
+    
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.shockwave.explode {
+    opacity: 1;
+    /* Menggunakan keyframes Scale Transform Murni */
+    animation: wobblyBubbleExpand 5s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes wobblyBubbleExpand {
+    0% { 
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        transform: translate(-50%, -50%) rotate(0deg) scale(0.02);
+        opacity: 0; 
+    }
+    10% { opacity: 1; }
+    30% { 
+        border-radius: 70% 30% 50% 50% / 30% 50% 70% 40%;
+    }
+    60% { 
+        border-radius: 30% 70% 50% 70% / 50% 40% 60% 30%;
+    }
+    100% { 
+        border-radius: 50% 50% 60% 40% / 70% 30% 50% 50%;
+        transform: translate(-50%, -50%) rotate(180deg) scale(1);
+        opacity: 0; 
+    }
+}
+
+/* ==================================
+   SCREEN SHAKE VIBRATION
+================================== */
+.shake-wrapper.shake {
+    /* Getaran layar dinonaktifkan sama sekali (Diganti durasi pasif 0s agar fallback aman) */
+    animation: none;
+}
+
+@keyframes screenVibrate {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    10% { transform: translate3d(-15px, 8px, 0); }
+    20% { transform: translate3d(12px, -6px, 0); }
+    30% { transform: translate3d(-8px, 10px, 0); }
+    40% { transform: translate3d(8px, -8px, 0); }
+    50% { transform: translate3d(-6px, 5px, 0); }
+    60% { transform: translate3d(6px, -4px, 0); }
+    70% { transform: translate3d(-4px, 3px, 0); }
+    80% { transform: translate3d(3px, -2px, 0); }
+    90% { transform: translate3d(-2px, 1px, 0); }
+}
+
+/* ==================================
+   CONTENT REVEAL (EXPLOSION)
+================================== */
+.hidden-initially {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 28vh; 
+}
+
+.hero-content.reveal {
+    visibility: visible;
+    pointer-events: auto;
+    /* Durasi reveal diperpanjang sangat jauh agar lebih damai */
+    animation: sereneReveal 3.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes sereneReveal {
+    0% { opacity: 0; transform: scale(0.95) translateY(10px); filter: blur(15px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
+}
+
+.title {
+    font-size: 5vw;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.2em;
+    color: #ffffff;
+    
+    /* TETAPKAN WARNA STATIS: Menggunakan glow Putih/Biru terang elegan */
+    text-shadow: 0 4px 60px rgba(180, 225, 255, 0.8);
+    
+    /* ANIMASI DIPAKSA DI GPU */
+    will-change: transform; 
+    animation: float 4s ease-in-out infinite;
+}
+
+.hero-content.reveal .title {
+    /* Muncul pasca efek */
+    animation: float 6s ease-in-out 3s infinite; 
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.tagline {
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+    opacity: 0;
+}
+
+.hero-content.reveal .tagline {
+    animation: fadeUpTagline 2.5s ease-out 1s forwards;
+}
+
+@keyframes fadeUpTagline {
+    0% { opacity: 0; transform: translateY(15px); filter: blur(5px); }
+    100% { opacity: 1; transform: translateY(0px); filter: blur(0px); }
+}
+
+.tagline::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 140, 0, 0.8), transparent);
+    margin: 1.5rem auto 0;
+    border-radius: 2px;
+}
+
+.hero-content.reveal .tagline::after {
+    animation: expandLine 3s ease-in-out 1.5s forwards;
+}
+
+@keyframes expandLine {
+    to { width: 60%; }
+}
+
+@media (max-width: 768px) {
+    .title { font-size: 3.5rem; }
+    .tagline { font-size: 1.2rem; }
+    .hero-content { margin-top: 22vh; }
+}

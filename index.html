@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmahTI Academy 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <svg style="width: 0; height: 0; position: absolute;" aria-hidden="true">
+      <filter id="svg-distort">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="coloredNoise" scale="12" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </svg>
+
+    <div class="shake-wrapper" id="shake-wrapper">
+        <section class="hero">
+            <div class="hero-bg-container">
+                <div class="zoom-wrapper">
+                    <!-- Menggunakan gambar _Lanjutan yang baru untuk jembatan hitam tanpa putus -->
+                    <img src="assets/Horizon_Horizontal_Lanjutan.png" class="hero-bg-img" alt="Space Horizon">
+                </div>
+            </div>
+            
+            <div class="shockwave" id="shockwave"></div>
+            
+            <canvas id="vfxCanvas"></canvas>
+            
+            <div class="hero-content hidden-initially" id="main-content">
+                <h1 class="title">OmahTI Academy 2026</h1>
+                <p class="tagline">Ignite your passion, Explore new horizon</p>
+            </div>
+        </section>
+        
+        <!-- BLOK KONTEN LANJUTAN (BISA DI-SCROLL KE BAWAH) -->
+        <!-- Background hitam pekat (#010103) secara otomatis menyambung sempurna dengan gradasi paling bawah dari _Lanjutan.png -->
+        <section style="width: 100%; min-height: 100vh; position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem;">
+            <div style="text-align: center; max-width: 800px; color: rgba(255, 255, 255, 0.8);">
+                <h2 style="font-size: 3rem; margin-bottom: 1rem; color: #fff; text-shadow: 0 0 20px rgba(255, 140, 0, 0.5);">Selamat Datang</h2>
+                <p style="font-size: 1.2rem; line-height: 1.6;">Anda kini bebas merancang konten pendaftaran, deskripsi rangkaian acara, dan form pengisian peserta di ruangan antar-bintang ini tanpa terganggu lag atau batasan layar yang diam!</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- CANVAS VFX ENGINE SCRIPT (Fokus Komet Fotorealistis) -->
+    <script>
+        const canvas = document.getElementById('vfxCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let stars = [];
+        let animationFrame;
+
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // 1. STARFIELD LATAR BELAKANG
+        // Variabel global pengatur tempo kelip bintang
+        let starSpeedMultiplier = 1.0;
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * (height * 0.65);
+                this.size = Math.random() * 2 + 0.5;
+                this.blinkSpeed = Math.random() * 0.05 + 0.01;
+                this.opacity = Math.random();
+                this.growing = Math.random() > 0.5;
+            }
+            update() {
+                // Skalakan kedipan dengan parameter waktu lari universe agar dapat dilambatkan!
+                if (this.growing) {
+                    this.opacity += this.blinkSpeed * starSpeedMultiplier;
+                    if (this.opacity >= 1) {
+                        this.opacity = 1;
+                        this.growing = false;
+                    }
+                } else {
+                    this.opacity -= this.blinkSpeed * starSpeedMultiplier;
+                    if (this.opacity <= 0.1) {
+                        this.opacity = 0.1;
+                        this.growing = true;
+                    }
+                }
+            }
+            draw() {
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        for (let i = 0; i < 100; i++) {
+            stars.push(new Star());
+        }
+
+        // 2. CANVAS ORGANIC MESH ENGINE (Wobbly Plasma Blob & Stardust)
+        let bubble = null;
+        let dusts = [];
+        
+        function triggerBubble(x, y) {
+            bubble = {
+                x: x,
+                y: y,
+                radius: 1,
+                maxRadius: Math.max(width, height) * 1.5,
+                opacity: 1,
+                time: 0,
+                active: true
+            };
+            
+            // Sentuhan ekstra: memancarkan percikan serbuk bintang (fireflies/stardust) yang damai bertebaran perlahan
+            for(let i = 0; i < 45; i++) {
+                dusts.push({
+                    x: x + (Math.random() - 0.5) * 50, // Penebaran awal alami menyebar dari poros amuba
+                    y: y + (Math.random() - 0.5) * 50,
+                    vx: (Math.random() - 0.5) * 6,
+                    // Terbang pelan melayang ke arah atas
+                    vy: (Math.random() - 0.5) * 3 - 2, 
+                    size: Math.random() * 2 + 0.8,
+                    opacity: 1,
+                    decay: Math.random() * 0.005 + 0.002, // Memudar sangat pelan laksana kunang-kunang (~3-5 detik)
+                    wobble: Math.random() * Math.PI * 2
+                });
+            }
+        }
+
+        // COMET LOGIC (Ultra-HD Smooth Beam Mode)
+        let comet = null;
+
+        function spawnComet() {
+            // Mulai dari titik terang horizon
+            let startY = height * 0.90; 
+            let targetY = height * 0.35; 
+            let startX = width / 2;
+            
+            comet = {
+                x: startX,
+                y: startY,
+                targetY: targetY,
+                speed: 30, // Diturunkan sesuai permintaan awal
+                friction: 0.95, // Menjaga agar sisa energinya tetap mengangkat komet sampai tujuan
+                tailLength: 0,
+                maxTailLength: Math.min(height * 0.3, 280),
+                opacity: 0,
+                active: true
+            };
+        }
+
+        function loop() {
+            // Bersihkan kanvas agar jernih dan garis tetap tajam secara HD
+            ctx.clearRect(0, 0, width, height);
+            ctx.globalCompositeOperation = 'source-over';
+            
+            // Perlambat tempo kelip bintang ke 45% kecepatan aslinya
+            // (15% di perhitungan matematika sebelumnya mengakibatkan siklus kedipan memakan waktu hingga 15 detik, sehingga terlihat macet/berhenti)
+            if (bubble) {
+                if (starSpeedMultiplier > 0.45) {
+                    starSpeedMultiplier -= 0.002;
+                }
+            }
+
+            // Jaga bintang-bintang di latar
+            stars.forEach(s => { s.update(); s.draw(); });
+
+            // 3. RENDER BUBBLE ORGANIK AMOEBA (The Plasma Explosion)
+            if (bubble && bubble.active) {
+                bubble.radius += (bubble.maxRadius - bubble.radius) * 0.02 + 2; 
+                bubble.time += 0.05;
+                
+                let progress = bubble.radius / bubble.maxRadius;
+                bubble.opacity = Math.max(0, 1 - Math.pow(progress, 2.5));
+                
+                if (bubble.opacity <= 0) bubble.active = false;
+
+                ctx.globalCompositeOperation = 'screen';
+                ctx.globalAlpha = bubble.opacity * 0.7; // Dikurangi drastis sesuai permintaan awal
+                
+                ctx.beginPath();
+                let points = 200; // Resolusi lengkungan tinggi
+                let baseRadius = bubble.radius;
+                
+                for (let i = 0; i <= points; i++) {
+                    let angle = (i / points) * Math.PI * 2;
+                    // Formula Trigonometri Sine Wave berganda untuk membentuk goyangan tentakel amuba/gumpalan asimetris!
+                    let noiseOffset = Math.sin(angle * 5 + bubble.time) * (baseRadius * 0.15) 
+                                    + Math.cos(angle * 3 - bubble.time * 1.5) * (baseRadius * 0.1);
+                    
+                    let r = baseRadius + noiseOffset;
+                    let pX = bubble.x + Math.cos(angle) * r;
+                    let pY = bubble.y + Math.sin(angle) * r;
+                    
+                    if (i === 0) ctx.moveTo(pX, pY);
+                    else ctx.lineTo(pX, pY);
+                }
+                ctx.closePath();
+                
+                // Murni gradasi mengisi kontur plasma (warna dihaluskan drastis, lebih redup dan damai)
+                let grad = ctx.createRadialGradient(bubble.x, bubble.y, 0, bubble.x, bubble.y, baseRadius * 1.2);
+                grad.addColorStop(0, 'rgba(255, 210, 160, 0.25)'); // Inti pudar kemerahan tipis
+                grad.addColorStop(0.4, 'rgba(255, 130, 40, 0.4)'); // Transisi oranye yang sangat mulus
+                grad.addColorStop(0.8, 'rgba(255, 60, 0, 0.1)');   // Terang menyatu memudar ke ujung
+                grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                
+                ctx.fillStyle = grad;
+                ctx.fill();
+                
+                // Perhatian: Seluruh goresan/tarikan garis luar (stroke, putus-putus maupun putih solid) resmi dimusnahkan. 
+                // Gumpalan plasma sekarang 100% transisi warna cair bergradasi bulat (tanpa border kaku atau tepian tajam)
+                
+                ctx.globalAlpha = 1;
+                ctx.globalCompositeOperation = 'source-over';
+            }
+            
+            // RENDER EXTRA: SENTUHAN STARDUST MELAYANG (Serbuk Emas Magis Pemanis)
+            if (dusts.length > 0) {
+                ctx.globalCompositeOperation = 'screen';
+                for (let i = dusts.length - 1; i >= 0; i--) {
+                    let d = dusts[i];
+                    
+                    // Terbang berdansa organik dengan ayunan fungsi Sinus
+                    d.x += d.vx + Math.sin(d.wobble) * 0.8;
+                    d.y += d.vy;
+                    d.wobble += 0.05;
+                    
+                    // Hambatan halus (gesekan udara di angkasa)
+                    d.vx *= 0.95;
+                    d.vy *= 0.98; 
+                    
+                    d.opacity -= d.decay;
+                    
+                    if (d.opacity <= 0) {
+                        dusts.splice(i, 1);
+                        continue;
+                    }
+                    
+                    ctx.beginPath();
+                    // Garis pendar (glow) elegan tebal di sekitar debu
+                    ctx.shadowBlur = 15;
+                    ctx.shadowColor = `rgba(255, 140, 0, ${d.opacity})`;
+                    ctx.arc(d.x, d.y, d.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 240, 190, ${d.opacity})`;
+                    ctx.fill();
+                    ctx.shadowBlur = 0; // Matikan pembiasan bayang agar tak mengganggu elemen lain
+                }
+                ctx.globalCompositeOperation = 'source-over';
+            }
+
+            // 4. RENDER KOMET
+            if (comet && comet.active) {
+                // Kalkulasi Fisika Deakselerasi Normal (Dibiarkan menyentuh angka 0 mutlak / berhenti total)
+                comet.speed *= comet.friction;
+                comet.y -= comet.speed;
+                
+                // Panjang ekor cahaya mengikuti kecepatan (sangat panjang di awal, menyusut di akhir)
+                comet.tailLength = Math.min(comet.maxTailLength, comet.speed * 6);
+                
+                // Terang secepat kilat di bawah saat meluncur awal
+                if (comet.opacity < 1) comet.opacity += 0.2;
+
+                // PENTING: Screen blend mode - warna komet akan "menyinar" terang
+                // dengan mewarnai piksel Horizon Asli di belakangnya secara alami
+                ctx.globalCompositeOperation = 'screen';
+                ctx.globalAlpha = Math.max(0, comet.opacity);
+
+                // A. INTI KOMET (Optical Lens Flare Glow)
+                ctx.beginPath();
+                // Radius glow diperkecil menjadi 25 untuk sinar yang lebih rapat, tipis, dan tajam
+                let headGlow = ctx.createRadialGradient(comet.x, comet.y, 0, comet.x, comet.y, 25);
+                headGlow.addColorStop(0, 'rgba(255, 255, 255, 1)');       // Kembali ke putih murni untuk realisme
+                headGlow.addColorStop(0.2, 'rgba(255, 230, 150, 0.8)');   // Transisi kuning terang
+                headGlow.addColorStop(0.7, 'rgba(255, 120, 0, 0.3)');     // Oranye pudar (tidak berlebihan)
+                headGlow.addColorStop(1, 'rgba(255, 60, 0, 0)');          // Menyatu
+                
+                ctx.fillStyle = headGlow;
+                ctx.arc(comet.x, comet.y, 25, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Tambahan: Anamorphic Horizontal Flare
+                ctx.beginPath();
+                let horizontalFlare = ctx.createRadialGradient(comet.x, comet.y, 0, comet.x, comet.y, 50);
+                horizontalFlare.addColorStop(0, 'rgba(255, 240, 200, 0.6)'); // Keseimbangan putih kuning
+                horizontalFlare.addColorStop(1, 'rgba(255, 100, 0, 0)');
+                ctx.fillStyle = horizontalFlare;
+                ctx.ellipse(comet.x, comet.y, 40, 1.5, 0, 0, Math.PI * 2); 
+                ctx.fill();
+
+                // B. EKOR ENERGI
+                ctx.beginPath();
+                let tailGlow = ctx.createLinearGradient(comet.x, comet.y, comet.x, comet.y + comet.tailLength);
+                tailGlow.addColorStop(0, 'rgba(255, 255, 255, 0.9)'); // Terang benderang di awal
+                tailGlow.addColorStop(0.2, 'rgba(255, 180, 50, 0.6)'); // Jejak kuning/oranye
+                tailGlow.addColorStop(0.7, 'rgba(200, 80, 0, 0.15)'); // Oranye halus
+                tailGlow.addColorStop(1, 'rgba(100, 20, 0, 0)');
+                
+                // Inti plasma tipis silet
+                ctx.strokeStyle = tailGlow;
+                ctx.lineWidth = 1.5; // Sangat tipis membentuk laser/serat optik
+                ctx.lineCap = 'round';
+                ctx.moveTo(comet.x, comet.y);
+                ctx.lineTo(comet.x, comet.y + comet.tailLength);
+                ctx.stroke();
+                
+                // Lapisan difusi embun panas sangat tipis (Glow ambient)
+                ctx.beginPath();
+                ctx.strokeStyle = tailGlow;
+                ctx.lineWidth = 6;  // Blur dikecilkan agar tidak terlihat gendut
+                ctx.globalAlpha = comet.opacity * 0.3; 
+                ctx.moveTo(comet.x, comet.y);
+                ctx.lineTo(comet.x, comet.y + comet.tailLength);
+                ctx.stroke();
+                
+                // Tambahan: Lapisan Macro Bloom untuk menggantikan CSS filter yang bikin ngelag
+                ctx.beginPath();
+                ctx.strokeStyle = tailGlow;
+                ctx.lineWidth = 30; // Radius lebar namun sangat pudar untuk ilusi cahaya kamera
+                ctx.globalAlpha = comet.opacity * 0.1;
+                ctx.moveTo(comet.x, comet.y);
+                ctx.lineTo(comet.x, comet.y + comet.tailLength);
+                ctx.stroke();
+
+                ctx.globalAlpha = 1;
+                ctx.globalCompositeOperation = 'source-over';
+
+                // Logika Berhenti & Ledakan (Memicu ledakan lalu lenyapkan total fisiknya seketika)
+                if (comet.y <= comet.targetY || comet.speed < 0.5) {
+                    comet.active = false;
+                    
+                    // Bangun gumpalan sel plasma amuba di titik absis Canvas
+                    triggerBubble(comet.x, comet.y);
+                    
+                    // PANGGIL SIKLUS DISTORSI KACA (Air Riak Asimetris)
+                    let shockwave = document.getElementById('shockwave');
+                    shockwave.classList.remove('explode'); 
+                    void shockwave.offsetWidth; 
+                    shockwave.classList.add('explode');
+                    
+                    let mainContent = document.getElementById('main-content');
+                    mainContent.classList.remove('hidden-initially');
+                    mainContent.classList.add('reveal');
+                }
+            }
+
+            animationFrame = requestAnimationFrame(loop);
+        }
+
+        window.onload = () => {
+            loop();
+            // Tembakan Sinematik Perdana 
+            setTimeout(() => {
+                spawnComet();
+            }, 800);
+        };
+    </script>
+</body>
+</html>
